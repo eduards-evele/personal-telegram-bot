@@ -13,8 +13,7 @@ async def get_openai_response(prompt):
     )
     return response.choices[0].message.content
 
-async def send_to_chat():
-    bot = Bot(token=os.getenv('TG_TOKEN'))
+async def send_to_chat(bot):
     while True: #вечный цикл
         #получаем ответ от чата гпт
         quote = await get_openai_response(os.getenv('PROMPT'))

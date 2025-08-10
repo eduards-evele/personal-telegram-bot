@@ -4,9 +4,7 @@ from handlers import controller
 from sender import send_to_chat
 import os
 # Запуск бота
-async def main():
-    print(os.getenv("TG_TOKEN"))
-    bot = Bot(token=os.getenv('TG_TOKEN'))
+async def main(bot):
     dp = Dispatcher()
 
     dp.include_routers(controller.router)
@@ -21,8 +19,8 @@ async def main():
     await dp.start_polling(bot)
 
 async def bot_processes():
-    await asyncio.gather(main(), )
+    bot = Bot(token=os.getenv('TG_TOKEN'))
+    await asyncio.gather(main(bot), send_to_chat(bot))
 
 if __name__ == "__main__":
-    asyncio.run(main())
-    asyncio.run(subprocess())
+    asyncio.run(bot_processes())
