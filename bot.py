@@ -1,6 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from handlers import controller
+from sender import send_to_chat
 import os
 # Запуск бота
 async def main():
@@ -19,6 +20,9 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
+async def bot_processes():
+    await asyncio.gather(main(), )
 
 if __name__ == "__main__":
     asyncio.run(main())
+    asyncio.run(subprocess())
