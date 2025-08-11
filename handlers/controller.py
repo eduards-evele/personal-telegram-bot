@@ -12,7 +12,7 @@ async def message_with_text(message: Message):  #объект сообщения
     if not r.exists('subscribers'):
         r.set('subscribers', str(chat_id))
     else:
-        ids_str = r.get('subscribers')
+        ids_str = r.get('subscribers').decode('utf-8')
         ids = ids_str.split(';')
         if chat_id not in ids:
             ids_str += f';{chat_id}'

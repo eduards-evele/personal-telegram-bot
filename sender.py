@@ -20,7 +20,7 @@ async def send_to_chat(bot):
         quote = await get_openai_response(os.getenv('PROMPT'))
         #открываем список айди из файла
         if r.exists('subscribers'):
-            subscribers = r.get('subscribers').split(';')
+            subscribers = r.get('subscribers').decode('utf-8').split(';')
             for subscriber in subscribers:
                 if subscriber != '':
                     await bot.send_message(chat_id=int(id), text=quote)
