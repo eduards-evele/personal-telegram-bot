@@ -2,19 +2,17 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from handlers import controller
 from sender import send_to_chat
+from aiogram.fsm.storage.redis import RedisStorage, Redis
 import os
-# Запуск бота
+
 async def main(bot):
-    dp = Dispatcher()
+    redis = Redis.from_url(os.getenv('REDIS_URL'))  # or Redis.from_url("redis://localhost:6379")
+
+    # 2️⃣ Create FSM storage
+    storage = RedisStorage(redis=redis)
+    dp = Dispatcher(storage=storage)
 
     dp.include_routers(controller.router)
-
-    # Альтернативный вариант регистрации роутеров по одному на строку
-    # dp.include_router(questions.router)
-    # dp.include_router(different_types.router)
-
-    # Запускаем бота и пропускаем все накопленные входящие
-    # Да, этот метод можно вызвать даже если у вас поллинг
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
