@@ -19,7 +19,9 @@ async def cmd_start(message: Message, state : FSMContext):
     if not await r.exists('subscribers'):
         await r.set('subscribers', str(chat_id))
     else:
-        ids_str = await r.get('subscribers').decode('utf-8')
+        ids_str = await r.get('subscribers')
+        
+        ids_str = ids_str.decode('utf-8')
         ids = ids_str.split(';')
         if str(chat_id) not in ids:
             ids_str += f';{chat_id}'
@@ -41,7 +43,8 @@ async def cmd_reset(message: Message, state : FSMContext):
     r = redis.from_url(os.getenv('REDIS_URL'))
     if await r.exists('subscribers'):
         chat_id = str(message.chat.id)
-        subscribers = await r.get('subscribers').decode('utf-8').split(';')
+        subscribers = await r.get('subscribers')
+        subscribers = subscribers.decode('utf-8').split(';')
         subscribers.remove(chat_id)
         s = ''
         for x in subscribers:

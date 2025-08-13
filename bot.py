@@ -6,9 +6,8 @@ from aiogram.fsm.storage.redis import RedisStorage, Redis
 import os
 
 async def main(bot):
-    redis = Redis.from_url(os.getenv('REDIS_URL'))  # or Redis.from_url("redis://localhost:6379")
+    redis = Redis.from_url(os.getenv('REDIS_URL'))  
 
-    # 2️⃣ Create FSM storage
     storage = RedisStorage(redis=redis)
     dp = Dispatcher(storage=storage)
 
